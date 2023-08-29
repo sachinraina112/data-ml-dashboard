@@ -1,0 +1,39 @@
+name: Docker Image CI
+env:
+  ip: ${{vars.SERVER_IP}}
+  port: 8501
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]  
+
+jobs:
+  job1-build:
+    runs-on: self-hosted
+    steps:   
+    - uses: actions/checkout@v1
+    - name: Stops running container on port
+      run: sudo chmod +777 code/* && sudo /bin/bash code/stop_port.sh $port
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: sudo docker build -t dash:$GITHUB_RUN_ID .
+  job2-run:
+    needs: [job1-build]
+    runs-on: self-hosted
+    continue-on-error: true
+    timeout-minutes: 1.5
+    steps:
+    - name: RunContainer
+      run: sudo docker run --name dash-cont -p $port:$port dash:$GITHUB_RUN_ID 
+    - name: check status
+      if: steps[*].outcome == 'cancelled' || ${{ cancelled() }}
+      run: exit 0
+ 
+  
+      
+   
+    
+    
+    
+    
