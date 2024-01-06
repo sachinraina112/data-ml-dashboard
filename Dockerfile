@@ -14,4 +14,4 @@ RUN pip3 install --no-cache-dir -r /dash-a/requirements.txt
 EXPOSE 8501
 WORKDIR "/dash-a/code/"
 
-CMD ["/bin/bash", "stream.sh"]
+#CMD ["/bin/bash", "stream.sh"]
