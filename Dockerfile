@@ -3,7 +3,6 @@ FROM python:3.9
 RUN mkdir dash-a
 WORKDIR /dash-a
 ADD data/ /dash-a/data/
-ADD code/railway.json /dash-a/code/
 ADD code/ /dash-a/code/
 
 ADD models/ /dash-a/models/
